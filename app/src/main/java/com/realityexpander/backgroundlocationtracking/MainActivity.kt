@@ -33,8 +33,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Button(onClick = {
-                        Intent(applicationContext, LocationService::class.java).apply {
-                            action = LocationService.ACTION_START
+                        Intent(applicationContext, LocationForegroundService::class.java).apply {
+                            action = LocationForegroundService.ACTION_START
                             startService(this)
                         }
                     }) {
@@ -42,8 +42,8 @@ class MainActivity : ComponentActivity() {
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(onClick = {
-                        Intent(applicationContext, LocationService::class.java).apply {
-                            action = LocationService.ACTION_STOP
+                        Intent(applicationContext, LocationForegroundService::class.java).apply {
+                            action = LocationForegroundService.ACTION_STOP
                             startService(this)
                         }
                     }) {

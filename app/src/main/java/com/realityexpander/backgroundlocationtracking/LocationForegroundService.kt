@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class LocationService: Service() {
+class LocationForegroundService: Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
@@ -32,6 +32,7 @@ class LocationService: Service() {
         )
     }
 
+    // Should be called "onReceiveCommand" instead of "onStartCommand"
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when(intent?.action) {
             ACTION_START -> start()
@@ -43,7 +44,7 @@ class LocationService: Service() {
     private fun start() {
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking location...")
-            .setContentText("Location: null")
+            .setContentText("Location: retrieving...")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setOngoing(true)
 
@@ -53,8 +54,8 @@ class LocationService: Service() {
             .getLocationUpdates(10000L)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
-                val lat = location.latitude.toString().takeLast(3)
-                val long = location.longitude.toString().takeLast(3)
+                val lat = location.latitude.toString()
+                val long = location.longitude.toString()
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
