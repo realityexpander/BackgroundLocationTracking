@@ -19,6 +19,8 @@ import com.realityexpander.backgroundlocationtracking.ui.theme.BackgroundLocatio
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // assumes the request is accepted (must add more logic to handle the case where it's not)
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
             ),
             0
         )
+
         setContent {
             BackgroundLocationTrackingTheme {
                 Column(
@@ -35,16 +38,17 @@ class MainActivity : ComponentActivity() {
                     Button(onClick = {
                         Intent(applicationContext, LocationForegroundService::class.java).apply {
                             action = LocationForegroundService.ACTION_START
-                            startService(this)
+                            startService(this) // sends command to start service
                         }
                     }) {
                         Text(text = "Start")
                     }
                     Spacer(modifier = Modifier.height(16.dp))
+
                     Button(onClick = {
                         Intent(applicationContext, LocationForegroundService::class.java).apply {
                             action = LocationForegroundService.ACTION_STOP
-                            startService(this)
+                            startService(this) // sends command to stop service
                         }
                     }) {
                         Text(text = "Stop")

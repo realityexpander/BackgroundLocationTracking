@@ -57,7 +57,7 @@ class LocationForegroundService: Service() {
                 val lat = location.latitude.toString()
                 val long = location.longitude.toString()
                 val updatedNotification = notification.setContentText(
-                    "Location: ($lat, $long)"
+                    "Location: (lat=$lat, lon=$long)"
                 )
                 notificationManager.notify(1, updatedNotification.build())
             }
